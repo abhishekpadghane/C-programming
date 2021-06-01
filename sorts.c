@@ -134,14 +134,59 @@ int *insertion_sort(int *A, int n){
 */
 
 
+// function to perform combine phase of merge sort
+
+void combine(int *A, int mid, int lower, int upper){
+	int i=lower, j=mid+1, k=0;
+	
+	while(i<=mid && j<=upper){
+		if(A[i] < A[j]){
+			SA[k] = A[i];
+			i++;
+		}
+		else if(A[j] < A[i]){
+			SA[k] = A[j];
+			j++;
+		}
+		else {
+			SA[k] = A[j];
+			i++;
+			j++;
+		}
+		k++;
+	}
+	
+	if(i<=mid){
+		while(i<=mid){
+			SA[k] = A[i];
+			i++;
+			k++;
+		}
+	}
+	
+	if(j<=upper){
+		while(j<=upper){
+			SA[k] = A[j];
+			j++;
+			k++;
+		}
+	}
+	
+}
+
+
 // function to perform split phase of merge sort
 
 void split(int *A, int lower, int upper){
 	if(lower < upper){
 		int mid = (int) floor( (lower+upper) / 2 );
+		
 		split(A, lower, mid);
 		split(A, mid+1, upper);
+		
+		combine(A, mid, lower, upper);
 	}
+	display_elememts(SA, (upper-lower)+1);
 }
 
 
